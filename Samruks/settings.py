@@ -30,7 +30,8 @@ SECRET_KEY = 'django-insecure-vw2+z&r5$$gyx8tfwy%s^=qz=if++b8r9+e_ronm@dcw_8$5yk
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["samrukmebel.com", "www.samrukmebel.com", "127.0.0.1", "localhost"]
+CSRF_TRUSTED_ORIGINS = ["https://samrukmebel.com", "https://www.samrukmebel.com"]
 
 
 # Application definition
@@ -96,14 +97,13 @@ WSGI_APPLICATION = 'Samruks.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.getenv("DB_NAME", "samruks"),
-        "USER": os.getenv("DB_USER", "postgres"),
-        "PASSWORD": os.getenv("DB_PASSWORD", "123"),
-        "HOST": os.getenv("DB_HOST", "127.0.0.1"),
-        "PORT": os.getenv("DB_PORT", "5432"),
+        "NAME": "sams",
+        "USER": "admin",
+        "PASSWORD": "Bahti_2016",
+        "HOST": "localhost",
+        "PORT": "5432",
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
