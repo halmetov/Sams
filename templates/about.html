@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+    <main>
+        <!-- Hero Section -->
+        {% if header %}
+            <section class="page-hero" {% if header.photo %}style="background-image:url('{{ header.photo.url }}')" {% endif %}>
+                <div class="container">
+                    <h1>{{ header.title }}</h1>
+                    {% if header.description %}
+                        <p>{{ header.description }}</p>
+                    {% endif %}
+                </div>
+            </section>
+        {% endif %}
+
+        <!-- About Content -->
+        <section class="about-content">
+            <div class="container">
+                <div class="about-main">
+                    <div class="about-text">
+                        <h2>{% trans 'Наша история' %}</h2>
+                        {% if company %}
+                        <p>{{ company.about_text }}</p>
+                        {% endif %}
+
+                        <h3>{% trans 'Наши преимущества' %}</h3>
+                        <ul class="advantages-list">
+                            {% for adv in advantages %}
+                            <li>{{ adv.title }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div class="stats-section">
+                        {% for m in metrics %}
+                        <div class="stat-card">
+                            <div class="stat-number">+{{ m.value }}{{ m.suffix }}</div>
+                            <div class="stat-label">{{ m.name }}</div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Company Video Section -->
+                <div class="company-video">
+                    <h2>{% trans 'Видео о нашей компании' %}</h2>
+                    <div class="video-container">
+                        {% if about_video %}
+                            {% if about_video.file %}
+                                <video class="video-player" controls preload="metadata" playsinline>
+                                    <source src="{{ about_video.file.url }}" type="video/mp4">
+                                    {% trans 'Ваш браузер не поддерживает видео.' %}
+                                </video>
+                            {% elif about_video.youtube_embed %}
+                                <div class="video-embed">
+                                    <iframe
+                                      src="{{ about_video.youtube_embed }}"
+                                      title="{{ about_video.title|default:_('Видео') }}"
+                                      frameborder="0"
+                                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                      allowfullscreen
+                                      referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                                </div>
+                            {% endif %}
+                        {% else %}
+                            <div class="video-placeholder">
+                                <div class="play-button">
+                                    <div class="play-icon"></div>
+                                </div>
+                                <div class="video-info">
+                                    <h3>{% trans 'Производство Samruk Mebel' %}</h3>
+                                    <p>{% trans 'Узнайте о наших технологиях производства и контроле качества' %}</p>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Team Section -->
+                <div class="team-section">
+                    <h2>{% trans 'Наша команда' %}</h2>
+                    <p>{% trans 'Профессиональная команда дизайнеров, производственников и менеджеров работает для того, чтобы каждый клиент получил именно то, что нужно для создания уюта в своем доме.' %}</p>
+
+                    <div class="team-grid">
+                        {% for m in team %}
+                        <div class="team-card">
+                            <div class="team-photo">
+                                <img src="{{ m.photo.url }}" alt="{{ m.full_name }}">
+                            </div>
+                            <h3 class="team-name">{{ m.full_name }}</h3>
+                            <p class="team-role">{{ m.role }}</p>
+                        </div>
+                        {% empty %}
+                        <p class="team-empty">{% trans 'Команда будет опубликована позже.' %}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Mission Section -->
+                <div class="mission-section">
+                    <div class="mission-grid">
+                        {% for v in values %}
+                        <div class="mission-item">
+                            <h3>{{ v.title }}</h3>
+                            <p>{{ v.description }}</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock %}

@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% load i18n static %}
+
+{% block content %}
+    <main>
+        <!-- Hero Slider Section -->
+        <section class="hero-section">
+            <div class="hero-slider" id="heroSlider">
+                {% for i in carousel %}
+                <div class="slide{% if forloop.first %} active{% endif %}">
+                    <img src="{{ i.image.url }}" alt="{% trans 'Качественные диваны' %}">
+                    <div class="slide-content">
+                        <h1>{{ i.title }}</h1>
+                        <p>{{ i.subtitle }}</p>
+                        <a href="{% url 'main:catalog' %}" class="btn btn-primary">{% trans 'Смотреть каталог' %}</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="slider-dots" id="sliderDots"></div>
+        </section>
+
+        <!-- Main Video Section -->
+        <section class="video-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>{% trans 'Samruk Mebel — качество в каждой детали' %}</h2>
+                    <p>{% trans 'Узнайте больше о нашем производстве и подходе к созданию мебели' %}</p>
+                </div>
+
+                <div class="video-container">
+                    {% if home_video %}
+                        {% if home_video.file %}
+                            <video class="video-player" controls preload="metadata" playsinline>
+                                <source src="{{ home_video.file.url }}" type="video/mp4">
+                                {% trans 'Ваш браузер не поддерживает видео.' %}
+                            </video>
+                        {% elif home_video.youtube_embed %}
+                            <div class="video-embed">
+                                <iframe
+                                  src="{{ home_video.youtube_embed }}"
+                                  title="{{ home_video.title|default:_('Видео') }}"
+                                  frameborder="0"
+                                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                  allowfullscreen
+                                  referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                            </div>
+                        {% endif %}
+                    {% else %}
+                        <div class="video-placeholder">
+                            <div class="play-button">
+                                <div class="play-icon"></div>
+                            </div>
+                            <div class="video-info">
+                                <h3>{% trans 'Видео о нашей компании' %}</h3>
+                                <p>{% trans 'Производство • Качество • Европейский дизайн' %}</p>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Products -->
+        <section class="products-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>{% trans 'Популярная мебель' %}</h2>
+                    <p>{% trans 'Откройте для себя нашу коллекцию качественной мебели в европейском стиле. Каждое изделие создано с вниманием к деталям и комфорту.' %}</p>
+                </div>
+
+                <div class="products-grid">
+                    {% for p in main_products %}
+                    <a href="{% url 'main:product_detail' p.slug %}" class="product-card" data-category="{{ p.category.name }}">
+                        <div class="product-image">
+                            {% with img=p.images.all.0 %}
+                                {% if img %}<img src="{{ img.image.url }}" alt="{{ p.name }}">{% else %}
+                                <img src="{% static 'placeholder.jpg' %}" alt="{{ p.name }}">
+                                {% endif %}
+                            {% endwith %}
+                        </div>
+                        <div class="product-info">
+                            <div class="product-category">{{ p.category.name }}</div>
+                            <h3>{{ p.name }}</h3>
+                            <div class="product-link"><span>{% trans 'Подробнее' %}</span><span class="arrow">→</span></div>
+                        </div>
+                    </a>
+                    {% empty %}
+                    <p class="no-products">{% trans 'Товары скоро появятся.' %}</p>
+                    {% endfor %}
+                </div>
+
+                <div class="section-footer">
+                    <a href="{% url 'main:catalog' %}" class="btn btn-primary">{% trans 'Смотреть весь каталог' %}</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Preview -->
+        <section class="about-preview">
+            <div class="container">
+                <div class="about-grid">
+                    <div class="about-content">
+                        <h2>{% trans 'О компании Samruk Mebel' %}</h2>
+                        {% if company %}
+                        <p>{{ company.about_text }}</p>
+                        <p>{{ company.mission_text }}</p>
+                        {% endif %}
+                        <a href="{% url 'main:about' %}" class="btn btn-outline">{% trans 'Узнать больше' %}</a>
+                    </div>
+                    <div class="stats-card">
+                        {% for m in metrics %}
+                        <div class="stat">
+                            <div class="stat-number">+{{ m.value }}{{ m.suffix }}</div>
+                            <div class="stat-label">{{ m.name }}</div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+{% endblock %}

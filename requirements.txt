@@ -1,0 +1,13 @@
+Django>=5.0
+djangorestframework
+django-filter
+drf-spectacular
+django-cors-headers
+Pillow
+python-dotenv
+psycopg2-binary
+whitenoise
+django-jazzmin
+requests
+django-ckeditor
+django-parler
