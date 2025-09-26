@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'django.contrib.sitemaps',
     'corsheaders',
     'rest_framework',
     'django_filters',
@@ -53,6 +55,9 @@ INSTALLED_APPS = [
     'parler',
     'main',
 ]
+
+
+SITE_ID = 1
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -202,6 +207,7 @@ CACHES = {
 
 # --- Jazzmin: русские заголовки админки ---
 JAZZMIN_SETTINGS = {
+    "custom_css": "parler/admin/parler_admin.css",
     "site_title": "Админка Samruk Mebel",
     "site_header": "Samruk Mebel — Панель управления",
     "site_brand": "Samruk Mebel",

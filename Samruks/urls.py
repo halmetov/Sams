@@ -6,6 +6,9 @@ from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
+from django.contrib.sitemaps.views import sitemap
+from main.sitemaps import StaticViewSitemap, CategorySitemap, ProductSitemap
+
 from main import views as main_views
 
 router = DefaultRouter()
@@ -18,6 +21,12 @@ router.register(r'about/team', main_views.TeamMemberViewSet, basename='team')
 router.register(r'about/values', main_views.ValueViewSet, basename='value')
 router.register(r'about/company', main_views.CompanyInfoViewSet, basename='company')
 
+sitemaps = {
+    'static': StaticViewSitemap,
+    'categories': CategorySitemap,
+    'products': ProductSitemap,
+}
+
 urlpatterns = [
     path("i18n/", include("django.conf.urls.i18n")),
     path('ckeditor/', include('ckeditor_uploader.urls')),
@@ -25,6 +34,7 @@ urlpatterns = [
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
     path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
     path('api/', include(router.urls)),
+    path("sitemap.xml", sitemap, {"sitemaps": sitemaps}, name="sitemap"),
 ]
 
 urlpatterns += i18n_patterns(

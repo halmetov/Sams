@@ -1,4 +1,5 @@
 from __future__ import annotations
+from django.urls import reverse
 
 import re
 
@@ -85,6 +86,9 @@ class Category(TranslatableModel):
             self.slug = slug
         return super().save(*args, **kwargs)
 
+    def get_absolute_url(self):
+        return reverse('category_detail', kwargs={'slug': self.slug})
+
     def __str__(self) -> str:
         return self.safe_translation_getter("name", any_language=True) or f"Category {self.pk}"
 
@@ -128,6 +132,9 @@ class Product(TranslatableModel):
                 n += 1
             self.slug = slug
         return super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('product_detail', kwargs={'slug': self.slug})
 
     def __str__(self) -> str:
         return self.safe_translation_getter("name", any_language=True) or f"Product {self.pk}"
